@@ -15,7 +15,7 @@ public class BaseDao {
         Properties properties = new Properties();
         try {
 
-            InputStream ras = Class.forName("com.yg.dao.BaseDao").getResourceAsStream("db.properties");
+            InputStream ras = BaseDao.class.getClassLoader().getResourceAsStream("db.properties");
             properties.load(ras);
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,13 +24,15 @@ public class BaseDao {
         url = properties.getProperty("url");
         username = properties.getProperty("username");
         password = properties.getProperty("password");
+        System.out.println(driver + url + username + password);
     }
 
     //获取数据库的连接
-    public Connection getConnection() {
+    public static Connection getConnection() {
         Connection con = null;
 
         try {
+
             Class.forName(driver);
             con = DriverManager.getConnection(url, username, password);
 
@@ -41,25 +43,27 @@ public class BaseDao {
     }
 
     //编写查询公共类
-    public static ResultSet excute(Connection connection, String sql, Object[] parms) throws SQLException {
-        PreparedStatement presta = connection.prepareStatement(sql);
-        for (int i = 1; i < parms.length; i++) {
-            presta.setObject(i, parms[i]);
+    public static ResultSet excute(Connection connection, ResultSet resultSet, PreparedStatement preparedStatement, String sql, Object[] parms) throws SQLException {
+        //预处理sql语句
+        preparedStatement = connection.prepareStatement(sql);
+        for (int i = 0; i < parms.length; i++) {
+            preparedStatement.setObject(i + 1, parms[i]);
         }
-        ResultSet resultSet = presta.executeQuery();
+        //执行的结果集
+        resultSet = preparedStatement.executeQuery();
         return resultSet;
     }
 
     //编写增删改类
     public static int update(Connection connection, String sql, Object[] parms) throws SQLException {
 
-        PreparedStatement presta = connection.prepareStatement(sql);
-        connection.setAutoCommit(false);
-        for (int i = 1; i < parms.length; i++) {
-            presta.setObject(i, parms[i]);
-        }
         int update = 0;
         try {
+            connection.setAutoCommit(false);
+            PreparedStatement presta = connection.prepareStatement(sql);
+            for (int i = 0; i < parms.length; i++) {
+                presta.setObject(i + 1, parms[i]);
+            }
             update = presta.executeUpdate();
         } catch (SQLException e) {
             connection.rollback();

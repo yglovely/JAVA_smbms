@@ -1,5 +1,7 @@
 package com.yg.pojo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class User {
@@ -163,6 +165,26 @@ public class User {
         this.modifyBy = modifyBy;
         this.modifyDate = modifyDate;
         this.userRoleName = userRoleName;
+    }
+
+    public static User set(ResultSet resultSet) {
+        User user = new User();
+        try {
+            user.setId(resultSet.getInt("id"));
+            user.setUserCode(resultSet.getString("userCode"));
+            user.setAddress(resultSet.getString("Address"));
+            user.setUserName(resultSet.getString("userName"));
+            user.setBirthday(resultSet.getDate("Birthday"));
+            user.setCreatedBy(resultSet.getInt("CreatedBy"));
+            user.setCreationDate(resultSet.getDate("CreationDate"));
+            user.setGender(resultSet.getInt("Gender"));
+            user.setPhone(resultSet.getString("Phone"));
+            user.setUserPassword(resultSet.getString("userPassword"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
     }
 
     @Override

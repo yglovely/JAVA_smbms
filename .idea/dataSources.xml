@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="smbms@localhost" uuid="f1138cd2-88f3-42d5-9ee5-48d90b716bf2">
+    <data-source source="LOCAL" name="MySQL - smbms@localhost" uuid="e2e79ed1-7c02-49eb-95c7-a5b7e9cadcf7">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/smbms</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <driver-properties>
         <property name="serverTimezone" value="Asia/Chongqing" />
-        <property name="tinyInt1isBit" value="true" />
       </driver-properties>
     </data-source>
   </component>
